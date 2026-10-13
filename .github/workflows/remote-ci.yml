@@ -1,0 +1,53 @@
+name: Remote source and native Windows checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+concurrency:
+  group: remote-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact candidate checkout
+        run: node -e "const c=require('node:child_process');const a=c.execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(a!==process.env.EXPECTED_SHA)throw Error('CHECKOUT_SHA_MISMATCH');console.log('Verified candidate '+a);"
+      - run: node --test tools/extraction-gate.test.mjs
+      - run: node tools/extraction-gate.mjs .
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact candidate checkout
+        run: node -e "const c=require('node:child_process');const a=c.execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(a!==process.env.EXPECTED_SHA)throw Error('CHECKOUT_SHA_MISMATCH');console.log('Verified candidate '+a);"
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: '10.0.x'
+      - name: Compile actual emitted Windows source
+        run: dotnet build src/HeavenRemote.App/HeavenRemote.App.csproj -c Release --warnaserror
+      - name: Run native core regressions
+        run: dotnet run --project tests/HeavenRemote.Checks/HeavenRemote.Checks.csproj -c Release
+      - name: Publish framework-dependent candidate (not a release)
+        run: dotnet publish src/HeavenRemote.App/HeavenRemote.App.csproj -c Release -r win-x64 --self-contained false -o artifacts/app
+      - name: Construct and dispose native UI without hardware changes
+        shell: pwsh
+        run: |
+          $process = Start-Process -FilePath ./artifacts/app/HeavenRemote.exe -ArgumentList '--self-test' -PassThru
+          if (-not $process.WaitForExit(30000)) {
+            $process.Kill()
+            throw 'Native self-test timeout'
+          }
+          if ($process.ExitCode -ne 0) { throw "Native self-test failed: $($process.ExitCode)" }
