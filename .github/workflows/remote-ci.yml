@@ -2,7 +2,12 @@ name: Remote source and native Windows checks
 on:
   pull_request:
   push:
-    branches: [main, 'feat/recover-remote-companion-20261012']
+    branches: [main]
+concurrency:
+  group: remote-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 permissions:
   contents: read
 jobs:
@@ -13,6 +18,9 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact candidate checkout
+        run: node -e "const c=require('node:child_process');const a=c.execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(a!==process.env.EXPECTED_SHA)throw Error('CHECKOUT_SHA_MISMATCH');console.log('Verified candidate '+a);"
       - run: node --test tools/extraction-gate.test.mjs
       - run: node tools/extraction-gate.mjs .
   windows:
@@ -22,6 +30,9 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Verify exact candidate checkout
+        run: node -e "const c=require('node:child_process');const a=c.execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(a!==process.env.EXPECTED_SHA)throw Error('CHECKOUT_SHA_MISMATCH');console.log('Verified candidate '+a);"
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
           dotnet-version: '10.0.x'
