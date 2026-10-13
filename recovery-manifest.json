@@ -1,0 +1,50 @@
+{
+  "schema": "heaven/extraction/v1",
+  "visibility": "public",
+  "delivery": "source-candidate",
+  "imports": [
+    {
+      "path": "src/HeavenRemote.Core/Recovered/DisplayModeSelector.cs",
+      "source": "PhoneSeat-v1.9",
+      "sourcePath": "src/PhoneSeat/Logic/DisplayModeSelector.cs",
+      "sourceSha256": "789e2d4287b0c2b6b18c1804f24e3182c81fe39f9184760b52de1ec3f9d45358",
+      "sha256": "612582de26809cd049f6fcf6bc8230bc6f91cb19b596f67ff486efcb7265a74b",
+      "transformation": "UTF-8 BOM removal and LF normalization only"
+    },
+    {
+      "path": "src/HeavenRemote.Core/Recovered/WindowsCommandLine.cs",
+      "source": "PhoneSeat-v1.9",
+      "sourcePath": "src/PhoneSeat/Logic/WindowsCommandLine.cs",
+      "sourceSha256": "7cf992be32081e071b693bc7e73cf69403508b5536b88748e9ee5dfe878900ac",
+      "sha256": "7ba34d5ab74456c758cb05d0df2a185ff0030d6df472f4624302899bf9402de4",
+      "transformation": "UTF-8 BOM removal and LF normalization only"
+    },
+    {
+      "path": "src/HeavenRemote.Core/Recovered/TurboDetector.cs",
+      "source": "PhoneSeat-v1.9",
+      "sourcePath": "src/PhoneSeat/Logic/TurboDetector.cs",
+      "sourceSha256": "2b89930e51af80bfa86f74ec36f8af9406ee52514cfd69a86c6f69ccf2e1b3fa",
+      "sha256": "74e420346133ec3dfd0fd4ffbdb138859e6f7c7d8dca87be51ad57bff4adf1c6",
+      "transformation": "UTF-8 BOM removal and LF normalization only"
+    },
+    {
+      "path": "src/HeavenRemote.Core/Recovered/TailscaleStatusParser.cs",
+      "source": "PhoneSeat-v1.9",
+      "sourcePath": "src/PhoneSeat/Logic/TailscaleStatusParser.cs",
+      "sourceSha256": "48f48fa69a801b45d923d1f7281ad61a17fe4a0cba341d46f38a58baf70199bd",
+      "sha256": "4cdafee2bf12c993b73050cf51df267a6e2455b96899464880f1bb8add00e848",
+      "transformation": "UTF-8 BOM removal and LF normalization only"
+    }
+  ],
+  "excluded": [
+    "raw Bridge receipts",
+    "credentials and private logs",
+    "legacy force-display/reset/startup scripts",
+    "unretrievable PhoneSeat v1.13 bytes"
+  ],
+  "limitations": [
+    "Imported PhoneSeat helpers are not evidence of a live backend, actual client route, or independent input isolation.",
+    "Recovery is a selected safe-source extraction; not all legacy services and UI are imported.",
+    "Native build and hardware acceptance are separately required."
+  ]
+}
