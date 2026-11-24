@@ -22,6 +22,7 @@ jobs:
       - name: Verify exact candidate checkout
         run: node -e "const c=require('node:child_process');const a=c.execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(a!==process.env.EXPECTED_SHA)throw Error('CHECKOUT_SHA_MISMATCH');console.log('Verified candidate '+a);"
       - run: node --test tools/extraction-gate.test.mjs
+      - run: node --test tools/source-update-policy.test.mjs
       - run: node tools/extraction-gate.mjs .
   windows:
     runs-on: windows-latest
