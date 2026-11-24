@@ -25,3 +25,11 @@ if ($LASTEXITCODE -ne 0) { throw 'Shared lookup failed. Reconcile the parent che
 Inspect matching evidence against this repository's source and tests. When there is no match or private parent access is unavailable, continue with the child sources and record the gap. During research compare reuse, a small change and keeping the present behavior. On interruption preserve the exact source, checks and next action in the existing issue or PR. Verify user-visible outcomes locally and send only independently verified transferable findings through the parent's existing child-feedback route.
 
 Keep the private lookup output in the authorized workspace. Public checkpoints may cite public child evidence and sanitized outcomes.
+
+## Recovered companion acceptance and safety
+
+Read `docs/RECOVERY.md` and `docs/STATUS.md` before changing the recovered companion. Archive provenance is not fresh runtime evidence. Verify `recovery-manifest.json` using the existing extraction/privacy gate and its tests, then run the exact native .NET/Windows checks. This source-only guard is not installed host authority. Never label guidance selection as an active streaming-mode transition.
+
+Keep the physical screen usable and preserve the 1920x1200 preference. A display is not a separate input session; a cable is not a verified stream route; a reachable port is not authenticated service identity. Profile/driver changes require backup, rollback, exact target and native readback. Do not silently fall back to capturing another monitor. Preserve local Bridge approval/HMAC boundaries. Do not add an unsolicited public controller listener, startup agent, driver migration or automatic rollout. Public source must not contain private raw logs, client addresses, user paths, credentials or Bridge receipts.
+
+The recovered companion remains subject to its recorded PR-specific release and installed-acceptance hold; reconciling source does not clear that hold. Follow current operator direction and native admission rather than treating the historical October incident freeze as a global rule.
